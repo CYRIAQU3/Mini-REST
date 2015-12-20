@@ -1,0 +1,10 @@
+{
+	"example_table":
+	[
+		"id","nickname","create_date","etc..."
+	],
+	"i_want_all_from_this_table":
+	[
+		"*"
+	]
+}

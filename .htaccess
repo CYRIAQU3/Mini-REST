@@ -1,0 +1,4 @@
+Options +FollowSymlinks
+RewriteEngine On
+RewriteRule    ^([A-Za-z0-9-]+)/?$    api.php?table=$1   [NC,L]
+RewriteRule    ^(.*)/(.*)/?$    api.php?table=$1&id=$2    [NC,L]

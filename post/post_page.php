@@ -1,0 +1,6 @@
+<?php
+/* 
+
+WHEN THE API RECEIVE A POST REQUEST FOR "/post_page", THIS PAGE WILL BE INCLUDED
+
+*/
