@@ -1,5 +1,22 @@
 <?php
-require('server.php');
+header('HTTP/1.1 200 OK');	// prevent 404
+header('Content-Type: application/json');
+session_start();
+try
+{
+	$PARAM_host='localhost';
+	$PARAM_port='3306';
+	$PARAM_db_name='substream';
+	$PARAM_user='root';
+	$PARAM_pass='';
+	$db = new PDO('mysql:host='.$PARAM_host.';port='.$PARAM_port.';dbname='.$PARAM_db_name, $PARAM_user, $PARAM_pass);
+}
+catch(Exception $e)
+{
+        echo 'Error : '.$e->getMessage().'<br />';
+        echo 'N° : '.$e->getCode();
+		die();
+}
 
 $urlq = array();
 
@@ -25,7 +42,7 @@ $queryLimit = 10;
 $queryOrder = "id";
 
 $return = array();
-$return['state'] = false;
+$return['success'] = false;
 $return['count'] = 0;
 
 if(!empty($urlq['id']))		//set the query id
@@ -49,8 +66,7 @@ else
 }
 
 
-							// EXEPTION
-							//  EXAMPLE :  if the query is /me, show the current logged user info
+							// exeption : if the query is /me, show the current logged user info
 if($urlq['table'] == "me")
 {
 	$queryTable = "users";
@@ -65,15 +81,13 @@ if($urlq['table'] == "me")
 	}
 }
 
-						// END EXEPTION
-
 if(!empty($_GET['limit']))		// set a limit
 {
 	$limit = intval($_GET['limit']);
 	$queryLimit = $limit;
 }
 
-if(!empty($_GET['order']))		// set the order
+if(!empty($_GET['order']))		// set a limit
 {
 	$order = htmlspecialchars($_GET['order']);
 	$queryOrder = $order;
@@ -81,20 +95,20 @@ if(!empty($_GET['order']))		// set the order
 
 $queryFilter = generateFilter($qTable);
 
-$q = "SELECT ".$queryFilter." FROM ".$queryTable." ".$queryWhere." order by ".$queryOrder." limit ".$queryLimit;
+$q = generateQuery($queryFilter,$queryTable,$queryWhere,$queryOrder,$queryLimit);
 
 $b = $db->query($q);
 
 if(!$b)						// in case of invalid table : stop
 {
-	$return['state'] = false;
-	$return['error'] = "INVALID_TABLE";
+	$return['success'] = false;
+	$return['message'] = "INVALID_TABLE";
 	$return['table'] = $queryTable;
 	print(json_encode($return));
 	exit;
 }
 
-$return['state'] = true;
+$return['success'] = true;
 $return[$qTable] = array();
 
 while($r = $b->fetch(PDO::FETCH_ASSOC))
@@ -128,14 +142,48 @@ while($r = $b->fetch(PDO::FETCH_ASSOC))
 		}
 	}
 
+		// ADDING THE JOINED TABLES
+	$queryFilter = "";
+	$queryTableSing = substr($queryTable, 0, -1);
+
+	$filter = json_decode(file_get_contents("models.json"));		// filter the query using the json		
+	if(property_exists ($filter,$qTable))
+	{
+		if(property_exists ($filter->$qTable,'join'))
+		{
+			$f = $filter->$qTable->join;
+			$c = 0;
+			foreach ($f as $value)									// generate the filter inside the query
+			{
+				$joinTableNameSing = substr($value, 0, -1);		// subtitles -> subtitle used for model.json
+				$queryWhere = "WHERE ".$queryTableSing."_id = ".$r['id'];
+				$queryFilter = generateFilter($joinTableNameSing);
+				$q = generateQuery($queryFilter,$value,$queryWhere,"","");
+				$c = $db->query($q);
+				if($c)
+				{
+					$r[$value] = array();
+					while($t = $c->fetch(PDO::FETCH_ASSOC))
+					{
+						array_push($r[$value], $t);
+					}
+				}
+				
+			}
+		}
+	}
+
 	array_push($return[$qTable],$r);
-	$return['state'] = true;
+	$return['success'] = true;
+
+		
 }
+
 
 if($return['count'] == 0)
 {
-	$return['state'] = false;
-	$return['error'] = "NO_RESULTS";
+	$return['success'] = false;
+	$return['message'] = "NO_RESULTS";
 }
 
 function generateFilter($qTable)				// get only the autorized param for a query
@@ -145,7 +193,7 @@ function generateFilter($qTable)				// get only the autorized param for a query
 	$filter = json_decode(file_get_contents("models.json"));		// filter the query using the json
 	if(property_exists ($filter,$qTable))
 	{
-		$f = $filter->$qTable;
+		$f = $filter->$qTable->rows;
 		$c = 0;
 		foreach ($f as $value)									// generate the filter inside the query
 		{
@@ -161,6 +209,21 @@ function generateFilter($qTable)				// get only the autorized param for a query
 	}
 
 	return $queryFilter;
+}
+
+function generateQuery($queryFilter,$queryTable,$queryWhere,$queryOrder,$queryLimit)
+{
+	if(empty($queryOrder))
+	{
+		$queryOrder = "id";
+	}
+	if(empty($queryLimit))
+	{
+		$queryLimit = "9999";
+	}
+
+	$r = "SELECT ".$queryFilter." FROM ".$queryTable." ".$queryWhere." ORDER BY ".$queryOrder." LIMIT ".$queryLimit;
+	return $r;
 }
 
 print json_encode($return);
