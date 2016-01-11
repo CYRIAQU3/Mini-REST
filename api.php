@@ -8,9 +8,9 @@ session_start();
 
 					$PARAM_host='localhost';
 					$PARAM_port='3306';
-					$PARAM_db_name='substream';
-					$PARAM_user='root';
-					$PARAM_pass='';
+					$PARAM_db_name='yourdatabase';
+					$PARAM_user='username';
+					$PARAM_pass='password';
 
 				// END DB CONFIGURATION \\
 try
