@@ -1,6 +1,6 @@
-# Mini-REST
+# SQL to JSON
 
-MINI-REST is a small PHP script allowing you to make [GET](https://github.com/CYRIAQU3/Mini-REST/blob/master/README.md#get) and [POST](https://github.com/CYRIAQU3/Mini-REST/blob/master/README.md#post) request to a database and retreive the result as a JSON object
+SQL to JSON is a small PHP script allowing you to make [GET](https://github.com/CYRIAQU3/Mini-REST/blob/master/README.md#get) and [POST](https://github.com/CYRIAQU3/Mini-REST/blob/master/README.md#post) request to a database and retreive the result as a JSON object
 
 [GET](https://github.com/CYRIAQU3/Mini-REST/blob/master/README.md#get)
 
