@@ -10,7 +10,6 @@ MINI-REST is a a very tiny REST Client designed to make simple call with a MYSQL
 
 ### - Inconvenients
 - No complex query (*Join* etc...)
-- Only one filter ([details here](https://github.com/CYRIAQU3/Mini-REST/blob/master/README.md#order))
 - No Put, Delete method for the moment (you must use the *Post* method)
 - For Subqueries, you must use my database model
 
@@ -109,3 +108,60 @@ Do not forget to check it a look !
   ```sh
   /api/users/&where=group_id=1&limit=2&order=name
   ```
+
+##Others
+### The database Model
+
+The script auto convert some values to object if they follow this following model :
+
+- The table name must be plural (ex : users, movies)
+- Every rows must have an id with the row name "id" (not user->user_id but user->id)
+- When you referenced another object in your rows, the table name must be singular following by **_id**  ex : **table_id**
+
+An example :
+```json
+{
+	"articles":
+	{
+		"table" : "articles",
+		"rows" :
+		[
+			"id","user_id","name","etc"
+		]
+	}
+}
+```
+Look at the **user_id** row.
+When you call an article, the script will check if the table users actually exist, in this case, it will transform *user_id* into *user* and you will get a result like it :
+
+**Call**
+```sh
+  /api/articles/1
+```
+**Article structure in Database**
+```json
+{
+	"id": "1",
+	"name": "Insert a clickbait article name here",
+	"user_id" : "1"
+}
+```
+
+**Result**
+```json
+{
+	"success" : true,
+	"count" : 1,
+	"articles": [
+	{
+		"id": "1",
+		"name": "Insert a clickbait article name here",
+		"user" : 
+		{
+			"id" : "1",
+			"nickname" : "CYRIAQU3",
+			"etc..." : "etc..."
+		}
+	}]
+}
+```
