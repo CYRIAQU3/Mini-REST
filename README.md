@@ -12,16 +12,16 @@ SQL to JSON is a small PHP script allowing you to make [GET](https://github.com/
 - Only 2 files required ( [api.php](https://github.com/CYRIAQU3/Mini-REST/blob/master/README.md#1---setup-your-database-informations-apiphp) and [models.json](https://github.com/CYRIAQU3/Mini-REST/blob/master/README.md#2---setup-your-database-model-modelsjson) )
 - Subqueries (**Ex :** *user_id* will be converted to an *user* object) [Explanations here](https://github.com/CYRIAQU3/Mini-REST/blob/master/README.md#the-subqueries)
 
-### - Inconvenients
+### - Drawbacks / Missing Features
 - No complex query (*Join* etc...)
-- No Put, Delete method for the moment (you must use the *Post* method)
+- No Put, Delete method at the moment (you must use the *Post* method)
 - For Subqueries, you must use [my database model](https://github.com/CYRIAQU3/Mini-REST/blob/master/README.md#the-subqueries)
 
 ##Configuration
 
 ### 1 - Setup your database informations (api.php)
 
-All the database infos are defined at the begin of **api.php**
+All required database infos must be defined at the beginning of **api.php**
 
 Here is an example :
 
@@ -38,12 +38,12 @@ $PARAM_pass='password';
 ```
 
 ### 2 - Setup your database model (models.json)
-When a "table" URL parameter is called : the script retreive the table (in the database) to be called and the rows to display.
+When a "table" URL parameter is called : the script retrieves the table (in the database) to be called and the rows to display.
 
-You probably don't want to display the hashed password of an user for example, that's why i advise to never use the "*" selector
+You probably don't want to display the hashed password of an user for example, that's why I advise to never use the "*" selector
 
 
-An example of the expected shema :
+An example of an expected output :
 
 ```json
 {
@@ -68,7 +68,7 @@ An example of the expected shema :
 
 ### 3 - .Htaccess (optionnal)
 
-The default .htaccess is configured for url calling like :
+The default .htaccess is configured to pass parameters like this :
 ```sh
   /api/tablename/&parameter=value
 ```
@@ -77,7 +77,7 @@ Without it, it will be :
 ```sh
   /api.php?table=tablename&parameter=value
 ```
-Do not forget to check it a look !
+Do not forget to take a look at it!
 
 ## GET
 
@@ -100,7 +100,7 @@ Do not forget to check it a look !
   
 ### Limit
 
-  By default, the limit is set to 10, but you can specify a custom value upper or lower
+  By default, the limit is set to 10, but you can specify a custom value
   
   Retreive **the two first** users who are in the group 1
   ```sh
@@ -114,7 +114,7 @@ Do not forget to check it a look !
   ```
 
 ## POST
-When the script receive a POST query, he simply include the file located in the sub-repository **/post/{tableparam}**
+When the script receive a POST query, it simply includes the file located in the sub-repository **/post/{tableparam}**
 You can do whatever you want with it
 
 Post query :
