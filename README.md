@@ -28,9 +28,9 @@ MINI-REST is a a very tiny REST Client designed to make simple call with a MYSQL
   /api/users/&where=group_id=1
   ```
   
-  Also, you can use **multiple conditions**
+  Also, you can use **multiple conditions** with the separator **:**
   ```sh
-  /api/users/&where=group_id=1&where=rank_id=2
+  /api/users/&where=group_id=1:nickname=CYRIAQU3
   ```
   
 ### Limit
