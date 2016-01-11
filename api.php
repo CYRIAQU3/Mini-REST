@@ -33,6 +33,8 @@ catch(Exception $e)
 
 $urlq = array();
 
+$filter = json_decode(file_get_contents("models.json"));		// filter the query using the json
+
 if($_SERVER['REQUEST_METHOD'] == "POST")					// if the query is a post
 {
 	$postTarget = htmlspecialchars($_GET['table']);
@@ -56,10 +58,10 @@ if(!isset($urlq['table']))
 	exit;
 }
 
-$singleValue = true;
+$singleValue = true;		//here
 $qTable = $urlq['table'];
 $qId;
-$queryTable = $qTable;
+$queryTable = $filter->$urlq['table']->table;
 $queryTarget = "";
 $queryLimit = 10;
 $queryOrder = "id";
@@ -173,9 +175,7 @@ while($r = $b->fetch(PDO::FETCH_ASSOC))
 
 		// ADDING THE JOINED TABLES
 	$queryFilter = "";
-	$queryTableSing = substr($queryTable, 0, -1);
-
-	$filter = json_decode(file_get_contents("models.json"));		// filter the query using the json		
+	$queryTableSing = substr($queryTable, 0, -1);		
 	if(property_exists ($filter,$qTable))
 	{
 		if(property_exists ($filter->$qTable,'join'))
