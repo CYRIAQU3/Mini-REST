@@ -2,11 +2,11 @@
 
 MINI-REST is a a very tiny REST Client designed to make simple call with a MYSQL Database
 
-### + Advantages
+### + Advantages and Features
 
 - Simple and fast setup
-- Single page
-- Subqueries (**Ex :** *user_id* will be converted to an *user* object)
+- Only 2 files required ( [api.php](https://github.com/CYRIAQU3/Mini-REST/blob/master/README.md#1---setup-your-database-informations-apiphp) and [models.json](https://github.com/CYRIAQU3/Mini-REST/blob/master/README.md#2---setup-your-database-model-modelsjson) )
+- Subqueries (**Ex :** *user_id* will be converted to an *user* object) [Explanations here](https://github.com/CYRIAQU3/Mini-REST/blob/master/README.md#the-database-model)
 
 ### - Inconvenients
 - No complex query (*Join* etc...)
