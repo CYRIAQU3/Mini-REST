@@ -34,6 +34,9 @@ MINI-REST is a a very tiny REST Client designed to make simple call with a MYSQL
   ```
   
 ### Limit
+
+  By default, the limit is set to 10, but you can specify a custom value upper or lower
+  
   Retreive **the two first** users who are in the group 1
   ```sh
   /api/users/&where=group_id=1&limit=2
