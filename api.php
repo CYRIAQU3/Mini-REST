@@ -33,6 +33,14 @@ foreach ($_GET as $key => $value)
 	$urlq[htmlspecialchars($key)] = htmlspecialchars($value);
 }
 
+if(!isset($urlq['table']))
+{
+	$return['success'] = false;
+	$return['message'] = "MISSING_REQUIRED_INPUT_TABLE";
+	print(json_encode($return));
+	exit;
+}
+
 $singleValue = true;
 $qTable = $urlq['table'];
 $qId;
@@ -182,7 +190,7 @@ while($r = $b->fetch(PDO::FETCH_ASSOC))
 
 if($return['count'] == 0)
 {
-	$return['success'] = false;
+	$return['success'] = true;
 	$return['message'] = "NO_RESULTS";
 }
 
