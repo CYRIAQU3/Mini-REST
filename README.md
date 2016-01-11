@@ -27,6 +27,12 @@ MINI-REST is a a very tiny REST Client designed to make simple call with a MYSQL
   ```sh
   /api/users/&where=group_id=1
   ```
+  
+  Also, you can use **multiple conditions**
+  ```sh
+  /api/users/&where=group_id=1&where=rank_id=2
+  ```
+  
 ### Limit
   Retreive **the two first** users who are in the group 1
   ```sh
