@@ -1,10 +1,26 @@
 {
-	"example_table":
-	[
-		"id","nickname","create_date","etc..."
-	],
-	"i_want_all_from_this_table":
-	[
-		"*"
-	]
+	"users":
+	{
+		"table" : "users",
+		"rows" :
+		[
+			"id","nickname","last_login_date","avatar_url","banner_url"
+		]
+	},
+	"me":
+	{
+		"table" : "users",
+		"rows" :
+		[
+			"id","nickname","last_login_date","signup_date","email","avatar_url","banner_url","hash"
+		]
+	},
+	"movies":
+	{
+		"table" : "movies",
+		"rows" :
+		[
+			"*"
+		]
+	}
 }
