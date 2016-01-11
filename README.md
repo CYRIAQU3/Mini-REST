@@ -1,6 +1,9 @@
 # Mini-REST
 
-MINI-REST is a a very tiny REST Client designed to make simple call with a MYSQL Database
+MINI-REST is a small PHP script allowing you to make GET and POST request to a database and retreive the result as a JSON object
+
+[GET](https://github.com/CYRIAQU3/Mini-REST/blob/master/README.md#get)
+[POST](https://github.com/CYRIAQU3/Mini-REST/blob/master/README.md#post)
 
 ### + Advantages and Features
 
@@ -75,7 +78,7 @@ Without it, it will be :
 ```
 Do not forget to check it a look !
 
-## Examples
+## GET
 
 ### Simple Calls
   Retreive **users** (default limit = 10)
@@ -108,6 +111,19 @@ Do not forget to check it a look !
   ```sh
   /api/users/&where=group_id=1&limit=2&order=name
   ```
+
+## POST
+When the script receive a POST query, he simply include the file located in the sub-repository **/post/{tableparam}**
+You can do whatever you want with it
+
+Post query :
+```sh
+/api/users
+```
+File called :
+```sh
+/api/post/users.php
+```
 
 ##Others
 ### The Subqueries
