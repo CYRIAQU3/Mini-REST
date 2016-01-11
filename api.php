@@ -2,20 +2,26 @@
 header('HTTP/1.1 200 OK');	// prevent 404
 header('Content-Type: application/json');
 session_start();
+
+
+				// BEGIN DB CONFIGURATION \\
+
+					$PARAM_host='localhost';
+					$PARAM_port='3306';
+					$PARAM_db_name='substream';
+					$PARAM_user='root';
+					$PARAM_pass='';
+
+				// END DB CONFIGURATION \\
 try
 {
-	$PARAM_host='localhost';
-	$PARAM_port='3306';
-	$PARAM_db_name='substream';
-	$PARAM_user='root';
-	$PARAM_pass='';
 	$db = new PDO('mysql:host='.$PARAM_host.';port='.$PARAM_port.';dbname='.$PARAM_db_name, $PARAM_user, $PARAM_pass);
 }
 catch(Exception $e)
 {
-        echo 'Error : '.$e->getMessage().'<br />';
-        echo 'N° : '.$e->getCode();
-		die();
+    echo 'Error : '.$e->getMessage().'<br />';
+    echo 'N° : '.$e->getCode();
+	die();
 }
 
 $urlq = array();
@@ -27,6 +33,8 @@ if($_SERVER['REQUEST_METHOD'] == "POST")					// if the query is a post
 	include($f);
 	exit();
 }
+
+$urlq["where"] = [];
 
 foreach ($_GET as $key => $value)
 {
@@ -62,10 +70,18 @@ if(!empty($urlq['id']))		//set the query id
 }
 elseif(!empty($urlq['where']))
 {
-	$p = explode("=", $urlq['where']);
-	if(count($p) > 1)
+	$wheres = $p = explode(":", $urlq['where']);
+	$queryWhere = "WHERE ";
+	$qws = "";
+
+	foreach ($wheres as $value)
 	{
-		$queryWhere = 'WHERE '.$p[0].' = "'.$p[1].'"';
+		$p = explode("=", $value);
+		if(isset($p[1]) && isset($p[0]))
+		{
+			$queryWhere = $queryWhere.$qws.$p[0].' = "'.$p[1].'"';
+			$qws = " AND ";
+		}
 	}
 }
 else
@@ -77,8 +93,6 @@ else
 							// exeption : if the query is /me, show the current logged user info
 if($urlq['table'] == "me")
 {
-	$queryTable = "users";
-
 	if(isset($_SESSION['id']))
 	{
 		$queryWhere = "WHERE id = ".$_SESSION['id'];
@@ -110,7 +124,7 @@ $b = $db->query($q);
 if(!$b)						// in case of invalid table : stop
 {
 	$return['success'] = false;
-	$return['message'] = "INVALID_TABLE";
+	$return['message'] = $db->errorInfo();
 	$return['table'] = $queryTable;
 	print(json_encode($return));
 	exit;
