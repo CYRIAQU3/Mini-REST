@@ -6,12 +6,12 @@ MINI-REST is a a very tiny REST Client designed to make simple call with a MYSQL
 
 - Simple and fast setup
 - Only 2 files required ( [api.php](https://github.com/CYRIAQU3/Mini-REST/blob/master/README.md#1---setup-your-database-informations-apiphp) and [models.json](https://github.com/CYRIAQU3/Mini-REST/blob/master/README.md#2---setup-your-database-model-modelsjson) )
-- Subqueries (**Ex :** *user_id* will be converted to an *user* object) [Explanations here](https://github.com/CYRIAQU3/Mini-REST/blob/master/README.md#the-database-model)
+- Subqueries (**Ex :** *user_id* will be converted to an *user* object) [Explanations here](https://github.com/CYRIAQU3/Mini-REST/blob/master/README.md#the-subqueries)
 
 ### - Inconvenients
 - No complex query (*Join* etc...)
 - No Put, Delete method for the moment (you must use the *Post* method)
-- For Subqueries, you must use my database model
+- For Subqueries, you must use [my database model](https://github.com/CYRIAQU3/Mini-REST/blob/master/README.md#the-subqueries)
 
 ##Configuration
 
@@ -110,7 +110,7 @@ Do not forget to check it a look !
   ```
 
 ##Others
-### The database Model
+### The Subqueries
 
 The script auto convert some values to object if they follow this following model :
 
