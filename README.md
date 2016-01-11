@@ -12,6 +12,7 @@ MINI-REST is a a very tiny REST Client designed to make simple call with a MYSQL
 - No complex query (*Join* etc...)
 - Only one filter ([details here](https://github.com/CYRIAQU3/Mini-REST/blob/master/README.md#order))
 - No Put, Delete method for the moment (you must use the *Post* method)
+- For Subqueries, you must use my database model
 
 ## Demo
 
